@@ -1,0 +1,42 @@
+class Solution {
+    public void mergeArrays(int a[], int b[]) {
+        int n = a.length;
+        int m = b.length;
+        int gap = nextGap(n + m);
+
+        while (gap > 0) {
+            int i = 0, j = gap;
+
+            while (j < (n + m)) {
+                int val1 = getVal(a, b, i, n);
+                int val2 = getVal(a, b, j, n);
+
+                if (val1 > val2) {
+                    setVal(a, b, i, val2, n);
+                    setVal(a, b, j, val1, n);
+                }
+
+                i++;
+                j++;
+            }
+
+            gap = nextGap(gap);
+        }
+    }
+
+    private int nextGap(int gap) {
+        return (gap <= 1) ? 0 : (gap + 1) / 2;
+    }
+
+    private int getVal(int[] a, int[] b, int idx, int n) {
+        return (idx < n) ? a[idx] : b[idx - n];
+    }
+
+    private void setVal(int[] a, int[] b, int idx, int value, int n) {
+        if (idx < n) {
+            a[idx] = value;
+        } else {
+            b[idx - n] = value;
+        }
+    }
+}
